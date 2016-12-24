@@ -1,0 +1,236 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l8 push-l2">
+                <div class="row margin-top">
+                    <h2 class="center-align">{{ game.host }} [{{ game.category }}]</h2>
+                    <div class="col s6 center-align">
+                        <h4 class="team_1">Team 1: <span class="team_1_score"></span></h4>
+                    </div>
+                    <div class="col s6 center-align">
+                        <h4 class="team_2">Team 2: <span class="team_2_score"></span></h4>
+                    </div>
+                    <hr/>
+                    <div class="col s12 center-align">
+                        <h2 class="countdown"></h2>
+                    </div>
+                </div>
+                <div class="row margin-top">
+                    <a href="#">
+                        <div class="fail col s12 l2 red center-align black-text z-depth-1">
+                            <p><i class="material-icons">thumb_down</i></p>
+                        </div>
+                    </a>
+                    <div class="col s12 l8 center-align">
+                        <h1 class="word">Word</h1>
+                    </div>
+                    <a href="#">
+                        <div class="success col s12 l2 green center-align black-text z-depth-1">
+                            <p><i class="material-icons">thumb_up</i></p>
+                        </div>
+                    </a>
+                    <div class="col s12 center-align margin-top info_card">
+                        <h5 class="current_team"></h5>
+                        <h5>Current Round: <span class="current_round"></span></h5>
+                        <h5>Words left this round: <span class="words_left"></span></h5>
+                        <h6>Round 1: Any words, any actions</h6>
+                        <h6>Round 2: One word, any actions</h6>
+                        <h6>Round 3: No words, only actions</h6>
+                        <a class="btn-large black-text orange next_team hide" href="#">
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                    <div class="col s12 l6 push-l3 center-align margin-top card light-blue word_bank hide">
+                        <p>{{ words }}</p>
+                    </div>
+                </div>
+                <script type="text/javascript">
+
+                </script>
+                <script>
+                    function shuffle(array) {
+                        var currentIndex = array.length, temporaryValue, randomIndex;
+
+                        // While there remain elements to shuffle...
+                        while (0 !== currentIndex) {
+
+                            // Pick a remaining element...
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex -= 1;
+
+                            // And swap it with the current element.
+                            temporaryValue = array[currentIndex];
+                            array[currentIndex] = array[randomIndex];
+                            array[randomIndex] = temporaryValue;
+                        }
+                        return array;
+                    }
+                </script>
+                <script>
+                    var NUM_ROUNDS = 3;
+                    var NUM_TEAMS = 2;
+                    beginGame();
+                    function beginGame() {
+                        var text = '{{ words }}';
+                        var arr = text.split(',');
+                        var word_count = arr.length;
+                        var i = 0;
+                        var team = 0;//team % NUM_TEAMS = which team it is (ex for two teams, 0 is team1, 1 is team2), just increment team each time it switches
+                        var scores = Array.apply(null, Array(NUM_TEAMS)).map(Number.prototype.valueOf, -1); //[-1,-1,...,-1]
+                        arr = shuffle(arr);
+                        skips = 0;
+                        round = 1;
+                        incrementScore(0);
+                        incrementScore(1);
+                        // timer details
+                        $('.countdown').countdown({
+                            date: +(new Date) + {{ game.time_per_round }},
+                            render: function (data) {
+                                $(this.el).text(this.leadingZeros(data.min, 2) + ":" + this.leadingZeros(data.sec, 2));
+                            },
+                            onEnd: function () {
+                                $(this.el).addClass('ended');
+                                endTurn();
+                            }
+                        }).on("click", function () {
+                            $(this).removeClass('ended').data('countdown').update(+(new Date) + 1000).start();
+                        });
+
+                        log('Let the game begin');
+
+                        //start first round, timer has started
+                        newRound(round);
+
+                        //display first word of deck
+                        $('.word').text(arr[i]);
+                        $('.words_left').text(word_count - i - 1);
+                        //nextWord();
+
+
+                        //if success clicked, increment score, next word
+                        $('.success').on("click", function () {
+                            nextWord();
+                            incrementScore(team);
+                            log('Success');
+                        });
+
+                        //if fail clicked, use skip, next word
+                        $('.fail').on("click", function () {
+                            if (skips < 1) {
+                                ++skips;
+                                nextWord();
+                                $(this).addClass('grey');
+                            }
+                            else {
+                                //do nothing
+                            }
+                            log('Skip used');
+                        });
+
+                        //if timer runs out, hide current word, don't increment i, change Team # is up text
+
+                        //if next turn button clicked, start next word and timer
+                        $('.next_team').on('click', function () {
+                            --i;
+                            nextWord();
+                            $(this).addClass('hide');
+                            $('.countdown').removeClass('ended').data('countdown').update(+(new Date) + {{ game.time_per_round }}).start();
+                            log('Next turn button clicked');
+                        });
+
+                        //if current round is NUM_ROUNDS, end game, show winner, change colors
+                        function nextWord() {
+                            i++;
+                            //if end of bowl, start new round (reset i, shuffle, display word)
+                            if (i == (word_count)) {
+                                newRound(++round);
+                                log('End of bowl. Start new round.')
+                            }
+                            else {
+                                $('.word').text(arr[i]);
+                                log('Next word');
+                            }
+                            wordsLeft();
+                        }
+
+                        function wordsLeft() {
+                            temp = word_count - i - 1;
+                            if (temp < 0)
+                                temp = 0;
+                            $('.words_left').text(temp);
+                        }
+
+                        function newRound(round) {
+                            if (round > NUM_ROUNDS) {
+                                endGame();
+                                log('End game');
+                            }
+                            else {
+                                arr = shuffle(arr);
+                                i = 0;
+                                $('.word').text(arr[i]);
+                                $('.current_round').text(round);
+                                log('New Round');
+                            }
+                        }
+
+                        function incrementScore(team) {
+                            scores[team % NUM_TEAMS] = scores[team % NUM_TEAMS] + 1;
+                            $('.team_1_score').text(scores[0]);
+                            $('.team_2_score').text(scores[1]);
+                            log('Increment score');
+                        }
+
+
+                        function endGame() {
+                            //hide everything but winner message and score
+                            $('.success, .fail').addClass('grey');
+                            $('.countdown').addClass('hide');
+                            $('.word').text('That\'s all, folks!');
+                            $('.word_bank').removeClass('hide');
+                            log('End of game');
+                        }
+
+                        function endTurn() {
+                            team++;
+                            skips = 0;
+                            //update current team text
+                            //hide current word
+                            $('.word').text('End of Turn');
+                            $('.next_team').removeClass('hide');
+                            $('.fail').removeClass('grey');
+                            log('End of turn');
+                        }
+
+                        function log(msg) {
+                            console.log('Action: ' + msg);
+                            console.log('i:' + i);
+                            console.log('team: ' + team);
+                            console.log('team%: ' + team % NUM_TEAMS);
+                            console.log('round: ' + round);
+                            console.log('words_left: ' + (word_count - i - 1));
+                            console.log('skips: ' + skips);
+                            console.log('word_count: ' + word_count);
+                            console.log('words: ' + arr);
+                            console.log('current word: ' + arr[i]);
+                            console.log('scores: ' + scores);
+                            console.log('--------------------');
+                        }
+
+                        function sleep(milliseconds) {
+                            var start = new Date().getTime();
+                            for (var i = 0; i < 1e7; i++) {
+                                if ((new Date().getTime() - start) > milliseconds) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l8 push-l2">
+                <div class="white card">
+                    <h3>Add a word to {{ game }}</h3>
+                    <h4>Category: {{ game.category }}</h4>
+                    <p>Words per player: {{ game.words_per_player }}</p>
+                    <form method="POST" class="">{% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save btn btn-default">Add word</button>
+                    </form>
+                    <a href="{% url 'game_detail' pk=game.pk %}" class="save btn btn-default">Game Detail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

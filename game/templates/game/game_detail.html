@@ -1,0 +1,21 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l8 push-l2">
+                <div class="white card">
+                    <a class="btn-floating btn-large waves-effect waves-light blue right"
+                       href="{% url 'game_play' pk=game.pk %}"><i class="material-icons">play_arrow</i></a>
+                    <h2>{{ game.host }}</h2>
+                    <p>Category: {{ game.category }}</p>
+                    <p>Time per player: {{ game.time_per_round }}ms</p>
+                    <p>Created: {{ game.created_date }}</p>
+                    <a href="{% url 'game_add' pk=game.pk %}"
+                       class="btn btn-large waves-effect waves-light red">Add Words</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

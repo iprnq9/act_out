@@ -1,0 +1,54 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l8">
+                <div class="white card">
+                    <h2>{{ workshop.title }}</h2>
+                    <p>by <a href="{% url 'profile_detail' pk=workshop.author.pk %}">{{ workshop.author }}</a></p>
+                    <hr />
+                    <h5>Workshop Summary</h5>
+                    <p>{{ workshop.full_description }}</p>
+                    <div class="collection with-header">
+                        <h4 class="collection-header"><i class="material-icons left">folder</i>Downloads</h4>
+                        <a href="#!" class="collection-item"><i class="material-icons left">file_download</i>program.ino</a>
+                        <a href="#!" class="collection-item"><i class="material-icons left">file_download</i>program.py</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l4 workshop-quick-facts">
+                <div class="card black-text white workshop-overview">
+                    <h4>Workshop Overview</h4>
+                    <ul>
+                        <li><i class="material-icons circle left">school</i>Grade Level: {{ workshop.age_group }}</li>
+                        <li><i class="material-icons circle left">access_time</i>Time: {{ workshop.duration }}</li>
+                        <li><i class="material-icons circle left">event</i>Frequency: {{ workshop.frequency }} </li>
+                        <li><i class="material-icons circle left">code</i>{{ workshop.topics }}</li>
+                        <li><i class="material-icons circle left">highlight_off</i>{{ workshop.fulfilled }}</li>
+                        <li><i class="material-icons circle left">today</i>{{ workshop.created_date }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col s12 l4 workshop-quick-facts right">
+                <div class="card-panel black-text white workshop-overview">
+                    <div class="row">
+                        <div class="col s4 offset-s4 l3 center-align">
+                            <img src="{% static 'images/profile.jpg' %}" class="responsive-img circle">
+                        </div>
+                        <div class="col s6 push-s3 l7 center-align">
+                            <h5>About the Author</h5>
+                            <h6>{{ workshop.author }}</h6>
+                            <h6><i class="material-icons">place</i>{{ workshop.author.zip_code }}</h6>
+                        </div>
+                    </div>
+                    <p>{{ workshop.author.summary }}</p>
+                    <div class="valign-wrapper object-tags">
+                        <div class="chip"><i class="material-icons">code</i>programming</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

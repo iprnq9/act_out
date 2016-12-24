@@ -1,0 +1,20 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row margin-top">
+            <h1>Recently Posted Games:</h1>
+            {% for game in games %}
+                <div class="col s12 m6 l4">
+                    <a href="{%  url 'game_detail' pk=game.pk %}">
+                        <div class="card">
+                            <h4>{{ game.host }}</h4>
+                            <p>Created: {{ game.created_date }}</p>
+                        </div>
+                    </a>
+               </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

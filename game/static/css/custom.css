@@ -1,0 +1,120 @@
+* {
+    transition: all 0s ease;
+}
+
+@media only screen and (min-width: 992px) {
+    .nav-wrapper {
+        margin-right: 17%;
+        margin-left: 17%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .profile-name, .profile-about, .profile-skills, .profile-grade-level, .profile-district, .profile-location, .profile-details {
+        text-align: center;
+    }
+}
+
+.chip {
+    margin-right: 3px;
+    margin-bottom: 5px;
+}
+
+.btn-flat {
+    margin-top: 0px;
+}
+
+.col {
+    padding: 15px;
+}
+
+.topcorner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+    font-size: 11pt;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Roboto Slab";
+    margin: 0px;
+}
+
+.subtitle {
+    font-size: 18pt;
+    line-height: auto;
+    margin: 0;
+}
+
+.float-right {
+    float: right;
+}
+
+.border-bottom {
+    border-bottom: 1px solid black;
+}
+
+.margin-top {
+    margin-top: 20px;
+}
+
+.parallax-container-full {
+    height: calc(100% - 65px);
+    width: 100%;
+}
+
+.chip {
+    line-height: 32px;
+}
+
+.card {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.profile-summary {
+    font-size: 16pt;
+}
+
+.workshop-overview li {
+    line-height: 28px;
+}
+
+.about li {
+    line-height: 28px;
+}
+
+hr {
+    border: solid black 1px;
+    width: 99%;
+}
+
+.countdown {
+    color: green;
+}
+
+.ended {
+    color: red;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}

@@ -1,0 +1,86 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Act Out</title>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!--Pulls favicon (browser tab icon) -->
+        <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="{%  static 'js/materialize.min.js' %}"></script>
+
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+
+        <link rel="stylesheet" href="{% static 'css/materialize.css' %}"  media="screen,projection" />
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}"  media="screen,projection" />
+
+        <script src="{% static 'js/countdown.js' %}"></script>
+        <script src="{% static 'js/jquery.countdown.js' %}"></script>
+
+        <meta name="theme-color" content="#43a047" />
+    </head>
+<body>
+    <header class="navbar-fixed">
+        <nav class="light-blue darken-2">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">Act Out!</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#"><i class="material-icons left">lightbulb_outline</i>About</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="page-footer light-blue darken-2">
+        <div class="container">
+            <div class="row">
+                <div class="col l4 s8">
+                    <h5 class="white-text">About Act Out</h5>
+                    <p class="grey-text text-lighten-4">
+                        Inspired by a fun party game, this web app hopes to rid the game of paper and tedious score-keeping.
+                    </p>
+                </div>
+                <div class="col l4 push-l4 s12">
+                    <h5 class="white-text">Quick Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#">Contact</a></li>
+                        <li><a class="grey-text text-lighten-3" href="/admin/">Admin</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2016 <a href="http://github.com/iprnq9/" target="_blank" class="white-text" >Ian Roberts</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function(){
+            $('.materialboxed').materialbox();
+            $(".button-collapse").sideNav(); //ENABLES MOBILE NAV
+            $('.parallax').parallax();
+            $('.slider').slider({full_width: true});
+            $('.materialboxed').materialbox();
+        });
+    </script>
+</body>
+</html>

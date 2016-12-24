@@ -1,0 +1,18 @@
+{% extends 'workshops/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row margin-top">
+            <div class="col s12 l8 push-l2">
+                <div class="card">
+                    <h3>Add Workshop</h3>
+                        <form method="POST" class="">{% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="save btn btn-default">Save</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

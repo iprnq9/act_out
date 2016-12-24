@@ -1,0 +1,113 @@
+{% extends 'workshops/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row margin-top">
+            <div class="col s12">
+                <div class="card-panel tile z-depth-2">
+                    <div class="tile-image-large">
+                        <img src="{%  static 'images/space.jpg' %}" />
+                    </div>
+                    <div class="tile-content full">
+                        <div class="tile-title"><h4>{{ workshop.name }}</h4></div>
+                        <div class="tile-description">
+                            <h6>Subsystems:</h6>
+                            <ul>
+                                {% for subsystem in subsystems %}
+                                    <li><a href="{% url 'subsystem_detail' pk_sub=subsystem.general_subsystem.pk %}">{{ subsystem.general_subsystem.name }}</a></li>
+                                {%  endfor %}
+                            </ul>
+                            <p>{{ project.full_description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if timelines %}
+                <div class="col s12">
+                    <div class="">
+                        <h4 class="white-text center-align">{{ project.name }}&nbsp;Timeline</h4>
+                        <section class="timeline">
+                            <ul>{% for timeline in timelines %}
+                                <li>
+                                    <div>
+                                        <time>{{ timeline.date }}</time> {{ timeline.text }}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col s12 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/profile2.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Dr. Hank Pernicka</span>
+                        <p class="">Principal Investigator</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/profile2.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Damon Wendt</span>
+                        <p class="">Project Manager</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'images/profile2.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Pavel Galchenko</span>
+                        <p class="">Chief Engineer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+
+        'use strict';
+
+        // define variables
+        var items = document.querySelectorAll(".timeline li");
+
+        // check if an element is in viewport
+        // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
+        function isElementInViewport(el) {
+            var rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function callbackFunc() {
+            for (var i = 0; i < items.length; i++) {
+                if (isElementInViewport(items[i])) {
+                    items[i].classList.add("in-view");
+                }
+            }
+        }
+
+        // listen for events
+        window.addEventListener("load", callbackFunc);
+        window.addEventListener("resize", callbackFunc);
+        window.addEventListener("scroll", callbackFunc);
+
+    })();
+    </script>
+{% endblock %}

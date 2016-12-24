@@ -1,0 +1,23 @@
+{% extends 'workshops/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m8 push-m2 l6 push-l3">
+            {% for workshop in workshops %}
+                <div class="card">
+                    <p class="lighten-4 grey-text float-right">Posted: {{ workshop.created_date }}</p>
+                    <h3>{{ workshop.title }} <i class="material-icons">star_border</i></h3>
+                    <p class="subtitle">by <a href="{% url 'profile_detail' pk=workshop.author.pk %}">{{ workshop.author }}</a></p>
+                    <p>{{ workshop.quick_description }}</p>
+                    <a class="waves-effect btn-flat white-text light-blue darken-3 float-right" href="{% url 'workshop_detail' pk=workshop.pk %}">
+                        <i class="material-icons left">exit_to_app</i>Full Details
+                    </a>
+                    <div class="chip"><i class="material-icons">place</i> {{ workshop.zip_code }}</div>
+                    <div class="chip"><i class="material-icons">school</i> {{ workshop.age_group }}</div>
+                    <div class="chip">{{ workshop.topics }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

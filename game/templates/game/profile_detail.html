@@ -1,0 +1,88 @@
+{% extends 'workshops/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="section container">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s6 offset-s3 l2 push-l2 profile-picture valign-wrapper"><img src="{% static 'images/profile.jpg' %}" class="responsive-img materialboxed valign" data-caption="{{ profile.first_name }}'s Profile Picture"/></div>
+                    <div class="col s12 l6 push-l2">
+                        <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
+                        <p class="profile-summary">{{ profile.summary }}</p>
+                        <span class="profile-skills">
+                            <div class="chip">programming</div>
+                            <div class="chip">{{ profile.profile_type }}</div>
+                        </span>
+                        <span class="right object-button hide">
+                            <a class="waves-effect btn-flat white-text light-blue darken-3" href="#">
+                                <i class="material-icons left">add</i>Add Workshop
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l8 push-l2">
+                        <ul class="tabs">
+                            <li class="tab col s4"><a href="#workshop-ideas" onclick="Materialize.fadeInImage('#workshop-ideas')">{{ profile.first_name }}'s Ideas</a></li>
+                            <li class="tab col s4"><a href="#workshop-history" onclick="Materialize.fadeInImage('#workshop-history')">{{ profile.first_name }}'s Favorites</a></li>
+                            <li class="tab col s4"><a href="#about" onclick="Materialize.fadeInImage('#about')">About {{ profile.first_name }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" id="workshop-ideas">
+                    <div class="col s12 l8 push-l2">
+                        <div class="profile-ideas">
+                            {% for workshop in user_workshops %}
+                                <div class="card">
+                                    <p class="lighten-4 grey-text float-right">Posted: {{ workshop.created_date }}</p>
+                                    <h3>{{ workshop.title }} <i class="material-icons">star_border</i></h3>
+                                    <p class="subtitle">by <a href="{% url 'profile_detail' pk=workshop.author.pk %}">{{ workshop.author }}</a></p>
+                                    <p>{{ workshop.quick_description }}</p>
+                                    <a class="waves-effect btn-flat white-text light-blue darken-3 float-right" href="{% url 'workshop_detail' pk=workshop.pk %}">
+                                        <i class="material-icons left">exit_to_app</i>Full Details
+                                    </a>
+                                    <div class="chip"><i class="material-icons">place</i> {{ workshop.zip_code }}</div>
+                                    <div class="chip"><i class="material-icons">school</i> {{ workshop.age_group }}</div>
+                                    <div class="chip">{{ workshop.topics }}</div>
+                                </div>
+                            {% endfor %}
+                            <div class="center-align object-button hide">
+                                <a class="waves-effect btn-flat white-text light-blue darken-3" href="#">
+                                    <i class="material-icons left">lightbulb_outline</i>Example Workshops
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="workshop-history">
+                    <div class="col s12 l8 push-l2">
+                        <div class="profile-ideas">
+                            <span class="right object-button">
+                                <a class="waves-effect btn-flat white-text light-blue darken-3" href="#">
+                                    <i class="material-icons left">add</i>Add Workshop
+                                </a>
+                            </span>
+                            <h3>{{ profile.first_name }}'s Favorite Workshops</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="about">
+                    <div class="col s12 l8 push-l2">
+                        <div class="about">
+                            <div class="row about-description">{{ profile.summary }}</div>
+                            <ul>
+                                <li><i class="material-icons circle left">people</i>DOB: {{ profile.date_of_birth }}</li>
+                                <li><i class="material-icons circle left">mail</i>{{ profile.email }}</li>
+                                <li><i class="material-icons circle left">phone</i>Phone</li>
+                                <li><i class="material-icons circle left">share</i><a href="#" target="_blank">LinkedIn</a></li>
+                                <li><i class="material-icons circle left">place</i>{{ profile.zip_code }}</li>
+                            </ul>
+                            <iframe width="100%" height="auto" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q={{ profile.zip_code }}&key=AIzaSyA3Hnx42SaJEa7CiIPbMaj9uYrglnbl5f0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

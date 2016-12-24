@@ -1,0 +1,44 @@
+{% extends 'updates/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="row margin-top">
+            <div class="col s12 l8">
+                    <div class="card-panel tile z-depth-2">
+                        <div class="tile-image-large">
+                            <img src="{% static 'images/space.jpg' %}" />
+                        </div>
+                        <div class="tile-content full">
+                            <div class="tile-title"><h4>{{ general_subsystem.name }}</h4></div>
+                            <div class="tile-description">
+                                <p>{{ general_subsystem.full_description }}</p>
+                                <p><img src="/static/images/subsystems/space_race.jpg" class="materialboxed responsive-img" />{{ general_subsystem.image }}</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col s12 l4">
+                {% for subsystem in subsystems %}
+                    <div class="card-panel tile z-depth-2">
+                        <div class="tile-image">
+                            <img src="{% static 'images/cube.jpg' %}" />
+                        </div>
+                        <div class="tile-content">
+                            <div class="tile-title"><a href="{% url 'project_detail' pk=subsystem.project.pk %}">{{ subsystem.project }}</a> {{ subsystem.general_subsystem }}</div>
+                            <div class="tile-description">
+                                <ul>
+                                    <li><span class="bold"><i class="material-icons left">person</i>Lead: </span><a href="mailto:{{ subsystem.lead_email }}" target="_blank">{{ subsystem.lead_name }}</a></li>
+                                    <li><span class="bold">
+                                        <i class="material-icons left">today</i>
+                                        {{ subsystem.meeting_frequency }} Meetings: </span>{{ subsystem.meeting_day }} at {{ subsystem.meeting_time }} in {{ subsystem.meeting_location }}</li>
+                                    <li><span class="bold"><i class="material-icons left">announcement</i>Update: </span>{{ subsystem.quick_update }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
