@@ -2,10 +2,9 @@
 
 Charades gets an upgrade from pen and paper to a web app.
 
-Party hosts can create a game of charades which gets added to the homepage automatically. 
-
-From there, participants can add words to the "bowl" from any smartphone or computer.
-
-Once the group is ready to play, one person's phone or tablet is passed around the circle, where every other person is on the same team.
+1. A party host creates a game with desired settings (category, words per player, name, etc)
+2. Participants can find that game on the homepage
+3. Participants then add words to the game
+4. Once all words have been submitted, players pass around a single phone or tablet
 
 _Created using Django, jQuery, and MaterializeCSS._
