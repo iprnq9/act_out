@@ -8,4 +8,4 @@ From there, participants can add words to the "bowl" from any smartphone or comp
 
 Once the group is ready to play, one person's phone or tablet is passed around the circle, where every other person is on the same team.
 
-_Created using Django and jQuery._
+_Created using Django, jQuery, and MaterializeCSS. _
